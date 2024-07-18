@@ -19,8 +19,8 @@ $ sudo setcap cap_setuid=ep ~/.go/bin/pwrstat-serve
 
 ```
 $ git clone github.com/justintout/pwrstat.git
-$ go -C pwrstat/cmd/pwrstat-serve/ build -o ./pwrstat-serve
-$ sudo setcap cap_setuid=ep pwrstat-serve
+$ go -C pwrstat/cmd/pwrstat-serve/ build -o ../../pwrstat-serve
+$ sudo setcap cap_setuid=ep pwrstat/pwrstat-serve
 ```
 
 ## Running

@@ -1,0 +1,29 @@
+name: Build and release `pwrstat-serve`
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
+      - name: Build executables
+        run: |
+          GOOS=linux GOARCH=amd64 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_amd64
+          GOOS=linux GOARCH=386 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_386
+          ls
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            pwrstat-serve_${{ github.ref_name }}_linux_amd64
+            pwrstat-serve_${{ github.ref_name }}_linux_386
