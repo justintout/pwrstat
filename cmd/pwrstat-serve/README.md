@@ -11,9 +11,17 @@ $ go install github.com/justintout/pwrstat/cmd/pwrstat-serve@latest
 $ sudo setcap cap_setuid=ep ~/.go/bin/pwrstat-serve
 ```
 
-### ...using a release tarball
+### ...using the latest release
 
-> Not yet supported.
+> Note: choose the correct release architecture, either `amd64` or `386`
+
+1. Download the [latest release](https://github.com/justintout/pwrstat/releases/latest) for your architecture
+2. Change to the directory downloaded
+
+```
+$ mv ./pwrstat-serve_v* ./pwrstat-serve
+$ sudo setcap cap_setuid=ep ./pwrstat-serve
+```
 
 ### ...by building manually
 
@@ -36,6 +44,8 @@ If you have a user who can run `pwrstat` without root privileges, you can pass t
 
 `pwrstat`'s default installation location is `/usr/sbin/pwrstat`.
 If you have the binary installed in a nonstandard location, you can use the `-path` flag to provide the alternate path to `pwrstat`.
+
+Exit with `SIGINT` (<key>Ctrl+C</key>)
 
 ## Usage
 
