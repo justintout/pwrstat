@@ -18,7 +18,7 @@ type ServerConfig struct {
 
 func NewServer(cfg ServerConfig) *http.Server {
 	mux := http.NewServeMux()
-	mux.Handle("/", handleStatus(cfg.Path, cfg.NoRoot))
+	mux.Handle("/", handleStatus(cfg.Path))
 	mux.Handle("/healthz", handleHealtz())
 	return &http.Server{
 		Addr:    net.JoinHostPort(cfg.Host, strconv.Itoa(cfg.Port)),
@@ -26,9 +26,9 @@ func NewServer(cfg ServerConfig) *http.Server {
 	}
 }
 
-func handleStatus(path string, noroot bool) http.HandlerFunc {
+func handleStatus(path string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		s, err := Status(path, !noroot)
+		s, err := Status(path)
 		if err != nil {
 			log.Printf("error getting status: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)

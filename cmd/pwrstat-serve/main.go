@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/justintout/pwrstat"
@@ -36,6 +38,16 @@ func run(ctx context.Context) error {
 	flag.StringVar(&host, "host", "0.0.0.0", "host for server to listen on")
 	flag.IntVar(&port, "port", 7977, "port for server to listen on")
 	flag.Parse()
+
+	// TODO: fork a child that handles setuid to separate HTTP server
+	// from a the process running as root. it's safe as-is but it makes
+	// me itchy to keep escalated privs hanging around
+	if !noroot {
+		err := syscall.Setuid(0)
+		if err != nil {
+			return fmt.Errorf("failed to setuid 0: %w", err)
+		}
+	}
 
 	svr := pwrstat.NewServer(pwrstat.ServerConfig{
 		Host:   host,
