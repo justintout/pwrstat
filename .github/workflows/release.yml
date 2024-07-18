@@ -18,8 +18,8 @@ jobs:
           go-version-file: "go.mod"
       - name: Build executables
         run: |
-          GOOS=linux GOARCH=amd64 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_amd64
-          GOOS=linux GOARCH=386 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_386
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_amd64
+          GOOS=linux GOARCH=386 CGO_ENABLED=0 go -C ./cmd/pwrstat-serve build -o ../../pwrstat-serve_${{ github.ref_name }}_linux_386
           ls
       - name: Create release
         uses: softprops/action-gh-release@v2
